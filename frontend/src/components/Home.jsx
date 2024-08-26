@@ -34,11 +34,15 @@ const Home = () => {
         params: { search: searchTerm.trim() },
       });
       const books = response.data;
-
-      if (books.length > 0) {
-        const book = books[0];
-        navigate(`/api/book/${book._id}`);
+    
+      // Check if the books array is not empty
+      const matchingBook = books.find(book => book.title.toLowerCase() === searchTerm.trim().toLowerCase());
+    
+      if (matchingBook) {
+        // If a matching book is found, navigate to its detail page
+        navigate(`/api/book/${matchingBook._id}`);
       } else {
+        // If no matching book is found, show an error message
         toast.error(`No books found with the name "${searchTerm}"`, {
           position: "top-center",
           autoClose: 3000,
@@ -59,6 +63,7 @@ const Home = () => {
         draggable: true,
       });
     }
+    
   };
 
   return (
