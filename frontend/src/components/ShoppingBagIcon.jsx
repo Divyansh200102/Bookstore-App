@@ -12,7 +12,7 @@ const ShoppingBagIcon = () => {
 
   return (
     <FaShoppingBag
-      className="text-2xl cursor-pointer absolute top-12 right-36 text-white" // Fixed positioning
+      className="text-2xl cursor-pointer absolute top-12 right-36 text-white " 
       onClick={handleIconClick}
     />
   );

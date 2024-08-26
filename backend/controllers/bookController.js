@@ -67,35 +67,35 @@ exports.createBookReview = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
 
-    if (book) {
-      const alreadyReviewed = book.reviews.find(
-        (r) => r.user.toString() === req.user._id.toString()
-      );
-
-      if (alreadyReviewed) {
-        res.status(400).json({ message: 'Book already reviewed' });
-        return;
-      }
-
-      const review = {
-        name: req.user.name,
-        rating: Number(rating),
-        comment,
-        user: req.user._id
-      };
-
-      book.reviews.push(review);
-      book.numReviews = book.reviews.length;
-      book.rating =
-        book.reviews.reduce((acc, item) => item.rating + acc, 0) /
-        book.reviews.length;
-
-      await book.save();
-      res.status(201).json({ message: 'Review added' });
-    } else {
-      res.status(404).json({ message: 'Book not found' });
+    if (!book) {
+      return res.status(404).json({ message: 'Book not found' });
     }
+
+    const alreadyReviewed = book.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    );
+
+    if (alreadyReviewed) {
+      return res.status(400).json({ message: 'Book already reviewed' });
+    }
+
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id
+    };
+
+    book.reviews.push(review);
+    book.numReviews = book.reviews.length;
+    book.rating =
+      book.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      book.reviews.length;
+
+    await book.save();
+    res.status(201).json({ message: 'Review added' });
   } catch (error) {
+    console.error('Error in createBookReview:', error); // Log detailed error
     res.status(500).json({ message: 'Error adding review', error: error.message });
   }
 };

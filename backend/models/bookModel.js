@@ -11,7 +11,7 @@ const reviewSchema = mongoose.Schema({
   rating: { type: Number, required: true },
   comment: { type: String, required: true }
 }, {
-  timestamps: true
+  timestamps: false
 });
 
 const bookSchema = new mongoose.Schema({
@@ -50,6 +50,6 @@ const bookSchema = new mongoose.Schema({
     required: true,
     default: 0
   }
-}, { timestamps: true });
+}, { timestamps: false });
 
 module.exports = mongoose.model('Book', bookSchema);
