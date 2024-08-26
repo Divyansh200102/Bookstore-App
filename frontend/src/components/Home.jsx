@@ -15,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     // Array of book-related background images
     const images = [
-      'url(https://m.media-amazon.com/images/I/91CQZ+V4ypL._AC_UF1000,1000_QL80_.jpg)',
+      'url(https://qph.cf2.quoracdn.net/main-qimg-9b4267c07c73a0c6099650d9fd3e9933-lq)',
       'url(https://d1csarkz8obe9u.cloudfront.net/posterpreviews/a-beautiful-unique-book-cover-art-design-template-0d50ce167d52e19534fe3af0307ff273_screen.jpg?ts=1637000940)',
     ];
     setBackgroundImage(images[Math.floor(Math.random() * images.length)]);
