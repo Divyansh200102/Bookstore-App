@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .preserve-3d {
+      transform-style: preserve-3d;
+    }
+  
+    .backface-hidden {
+      backface-visibility: hidden;
+    }
+  
+    .my-rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+  
+    .book-cover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 20px;
+      height: 100%;
+      background: linear-gradient(to right, #d1d5db, #e5e7eb);
+      transform: skewY(-45deg);
+      transform-origin: top;
+    }
+  }
