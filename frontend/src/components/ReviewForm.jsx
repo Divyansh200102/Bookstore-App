@@ -4,6 +4,7 @@ import axios from 'axios';
 const ReviewForm = ({ bookId, onReviewAdded }) => {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
+  const [name, setName] = useState(''); // Add state for name
   const [error, setError] = useState(null); // Add error state
   const [isSubmitting, setIsSubmitting] = useState(false); // Add loading state
 
@@ -11,31 +12,26 @@ const ReviewForm = ({ bookId, onReviewAdded }) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null); // Reset error before submission
+  
     try {
-      const token = localStorage.getItem('token');
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      };
-
       await axios.post(
         `http://localhost:5000/api/books/${bookId}/reviews`,
-        { rating, comment },
-        config
+        { name, rating, comment }, // Include name in the payload
+        // Remove the config object that contains headers
       );
-
-      onReviewAdded();
-      setRating(5);
-      setComment('');
+  
+      onReviewAdded(); // Callback function after review is added
+      setRating(5);    // Reset rating to default
+      setComment('');  // Clear comment
+      setName(''); // Reset name after submission
     } catch (error) {
       setError('Failed to submit the review. Please try again.');
       console.error('Error adding review:', error);
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false); // Reset submitting state
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit} className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-xl shadow-lg mt-8 border border-blue-100">
@@ -46,7 +42,18 @@ const ReviewForm = ({ bookId, onReviewAdded }) => {
           <p>{error}</p>
         </div>
       )}
-      
+       <div className="mb-6">
+        <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">Name:</label>
+        <input
+          id="name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          required
+          placeholder="Your name..."
+        />
+      </div>
       <div className="mb-6">
         <label htmlFor="rating" className="block text-gray-700 font-semibold mb-2">Rating:</label>
         <div className="relative">
